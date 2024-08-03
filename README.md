@@ -48,6 +48,7 @@ This script utilizes `clang` or [qbt-musl-cross-make](https://github.com/userdoc
 - Linux
   - x86_64(glibc and musl)
   - aarch64(glibc and musl)
+  - armv5(glibc and musl)
   - armv7(glibc and musl)
   - i686(musl)
   - riscv64(glibc and musl)
@@ -74,6 +75,9 @@ This script utilizes `clang` or [qbt-musl-cross-make](https://github.com/userdoc
 - To compile locally, install Docker, clone the Git repository, navigate to the repository directory, and then execute the following command:  
 `sh curl-static-cross.sh`  
 script will create a container and compile the host architecture cURL only.  
+
+- armv5 with Proxy:  
+`ARCH=armv5 HTTP_PROXY="http://192.168.2.20:7776" HTTPS_PROXY="http://192.168.2.20:7776" CURL_VERSION=8.9.1 CONTAINER_IMAGE=alpine:latest sh curl-static-cross-armv5.sh`
 
 - To compile in docker, run:  
   ```shell
@@ -175,5 +179,7 @@ For all `VERSION` variables, leaving them blank will automatically fetch the lat
 - `TRURL_VERSION`: The version of trurl.
 - `ENABLE_TRURL`: Compile trurl. Default is `false`, set to `true` or `yes` to enable it. NOT available for macOS.
 - `ENABLE_DEBUG`: Enable curl debug. Default is `false`, set to `true` or `yes` to enable it.
+- `HTTP_PROXY`: Enable Docker inside http proxy.
+- `HTTPS_PROXY`: Enable Docker inside https proxy.
 
 The compiled files will be saved in the current `release` directory.
