@@ -38,7 +38,7 @@ BROTLI_TAG=
 ZSTD_TAG=
 LIBSSH2_TAG=
 
-CURL_TAG=8.9.1
+CURL_TAG=8.10.0
 ENABLE_TRURL=0
 
 STANDARD="c++17"
@@ -558,6 +558,8 @@ curl_config() {
     fi
 
     make clean || true
+    #https://github.com/curl/curl/issues/14879
+    rm src/tool_ca_embed.c
     #custom_flags_set
     CC=${host}-gcc CXX=${host}-g++ CPPFLAGS="${CPPFLAGS}" LDFLAGS="${LDFLAGS}" \
     LDFLAGS="--static -static -Wl,--no-as-needed -L${lib_dir}" LIBS="-lpthread" \
@@ -586,10 +588,11 @@ curl_config() {
     --enable-curldebug --enable-dict --enable-netrc \
     --enable-bearer-auth --enable-tls-srp --enable-dnsshuffle \
     --enable-get-easy-options --enable-progress-meter \
+    --enable-ares --disable-ldap --disable-ldaps \
+    --with-ca-embed=/root/src/curl-ca-bundle.crt \
     --with-ca-bundle=/etc/ssl/certs/ca-certificates.crt \
     --with-ca-path=/etc/ssl/certs \
-    --with-ca-fallback --enable-ares \
-    --disable-ldap --disable-ldaps
+    --with-ca-fallback
 }
 
 compile_curl() {
@@ -648,7 +651,6 @@ compile_libs() {
 
 compile() {
     echo "Compiling cURL for ${arch}"
-
     compile_curl;
     compile_trurl;
 }
