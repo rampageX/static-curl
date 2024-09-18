@@ -38,7 +38,7 @@ BROTLI_TAG=
 ZSTD_TAG=
 LIBSSH2_TAG=
 
-CURL_TAG=8.10.0
+CURL_TAG=8.10.1
 ENABLE_TRURL=0
 
 STANDARD="c++17"
@@ -558,8 +558,6 @@ curl_config() {
     fi
 
     make clean || true
-    #https://github.com/curl/curl/issues/14879
-    rm src/tool_ca_embed.c
     #custom_flags_set
     CC=${host}-gcc CXX=${host}-g++ CPPFLAGS="${CPPFLAGS}" LDFLAGS="${LDFLAGS}" \
     LDFLAGS="--static -static -Wl,--no-as-needed -L${lib_dir}" LIBS="-lpthread" \
@@ -657,5 +655,5 @@ compile() {
 
 #alpine_init
 clean_folder
-#compile_libs
+compile_libs
 compile
