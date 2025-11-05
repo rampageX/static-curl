@@ -307,10 +307,11 @@ compile_zlib() {
     cd out/
 
     PKG_CONFIG="pkg-config --static" \
-            cmake -DCMAKE_BUILD_TYPE=Release -DCMAKE_SYSTEM_NAME=Windows -DBUILD_SHARED_LIBS=OFF \
-                  -DCMAKE_INSTALL_PREFIX="${PREFIX}" .. ;
+        cmake -DCMAKE_BUILD_TYPE=Release -DCMAKE_SYSTEM_NAME=Windows -DBUILD_SHARED_LIBS=OFF \
+              -DCMAKE_INSTALL_PREFIX="${PREFIX}" .. ;
     PKG_CONFIG="pkg-config --static" \
         cmake --build . --config Release --target install;
+    ln -s -r "${PREFIX}/lib/libzlibstatic.a" "${PREFIX}/lib/libz.a";
 
     _copy_license ../LICENSE zlib;
 }
